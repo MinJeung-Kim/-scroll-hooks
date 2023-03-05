@@ -49,7 +49,7 @@ const S = {
 
 const Report = () => {
   const animatedItem = useScrollFadeIn("up", 1, 0);
-  const animatedItem2 = useScrollFadeIn("up", 1, 0.2);
+  const animatedItem2 = useScrollFadeIn("up", 1, 0.1);
 
   return (
     <S.Wrapper>

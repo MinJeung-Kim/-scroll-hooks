@@ -39,7 +39,7 @@ const S = {
     margin-bottom: 4rem;
   `,
   List: styled.ul`
-    width: 100%;
+    width: 95%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-content: space-between;

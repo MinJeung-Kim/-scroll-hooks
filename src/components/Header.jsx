@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import Button from "./Button";
+import { IoIosArrowBack } from "react-icons/io";
+import { RiArrowDownSFill } from "react-icons/ri";
+import styles from "./Header.module.css";
 
 const S = {
   Wrapper: styled.div`
@@ -42,16 +45,17 @@ const S = {
     display: flex;
     justify-content: center;
   `,
-  NavigationItem: styled.a`
-    color: ${(props) => props.theme.palette.white};
-    color: ${({ isScroll, theme }) =>
-      isScroll ? theme.palette.white : theme.palette.white};
-    margin: 0 1rem;
-    cursor: pointer;
-    &:hover {
-      opacity: 0.5;
-    }
-  `,
+  // NavigationItem: styled.a`
+  //   color: ${(props) => props.theme.palette.white};
+  //   color: ${({ isScroll, theme }) =>
+  //     isScroll ? theme.palette.white : theme.palette.white};
+  //   margin: 0 1rem;
+  //   cursor: pointer;
+  //   &:hover {
+  //     opacity: 0.5;
+  //   }
+  // `,
+
   ButtonWrapper: styled.div`
     flex: 0 0 25%;
     max-width: 25%;
@@ -61,11 +65,39 @@ const S = {
 };
 
 const NAVIGATION_ITEMS = [
-  "DCLO CSPM",
-  "기능 소개",
-  "Consulting",
-  "회사소개",
-  "문의하기",
+  { id: 1, name: "DCLO CSPM", children: [] },
+  {
+    id: 2,
+    name: "기능 소개",
+    icon: <RiArrowDownSFill />,
+    children: [
+      { title: "컴플라이언스" },
+      { title: "시각화" },
+      { title: "자산 관리" },
+      { title: "보고서" },
+    ],
+  },
+  {
+    id: 3,
+    name: "Consulting",
+    icon: <RiArrowDownSFill />,
+    children: [
+      { title: "모의해킹" },
+      { title: "기술진단" },
+      { title: "관리진단" },
+    ],
+  },
+  {
+    id: 4,
+    name: "회사소개",
+    icon: <RiArrowDownSFill />,
+    children: [],
+  },
+  {
+    id: 5,
+    name: "문의하기",
+    children: [],
+  },
 ];
 
 const Header = () => {
@@ -93,12 +125,48 @@ const Header = () => {
         <S.Logo isScroll={isScroll}>
           <img src="images/logo.png" alt="logo" />
         </S.Logo>
-        <S.Navigation>
+        {/* <S.Navigation>
           {NAVIGATION_ITEMS.map((item) => (
             <S.NavigationItem key={item} isScroll={isScroll}>
               {item}
             </S.NavigationItem>
           ))}
+        </S.Navigation> */}
+        <S.Navigation>
+          {NAVIGATION_ITEMS.map(({ id, name, children }) => {
+            return (
+              <li
+                key={id}
+                className={
+                  children.length > 0 ? styles.menu_item_has_children : ""
+                }
+              >
+                <a href="#">
+                  {name}
+                  {children.length > 0 && (
+                    <i>
+                      <RiArrowDownSFill />
+                    </i>
+                  )}
+                </a>
+                {children && (
+                  <div
+                    className={`${styles.sub_menu} ${styles.single_column_menu}`}
+                  >
+                    <ul>
+                      {children.map(({ title }, index) => {
+                        return (
+                          <li key={index}>
+                            <a href="#">{title}</a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            );
+          })}
         </S.Navigation>
         <S.ButtonWrapper>
           <Button fill="solid" type="button" style={{ marginLeft: "auto" }}>
