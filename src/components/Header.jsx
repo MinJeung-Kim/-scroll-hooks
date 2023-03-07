@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import Button from "./Button";
-import { IoIosArrowBack } from "react-icons/io";
 import { RiArrowDownSFill } from "react-icons/ri";
-import styles from "./Header.module.css";
 
 const S = {
   Wrapper: styled.div`
@@ -39,7 +37,7 @@ const S = {
     }
   `,
 
-  Navigation: styled.div`
+  Navigation: styled.ul`
     flex: 0 0 50%;
     max-width: 50%;
     display: flex;
@@ -56,6 +54,72 @@ const S = {
   //   }
   // `,
 
+  NavigationItem: styled.li`
+    display: inline-block;
+    line-height: 50px;
+    margin-left: 25px;
+
+    a {
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+      position: relative;
+      text-transform: capitalize;
+      transition: color 0.3s ease;
+    }
+    &:hover {
+      a {
+        color: #fea116;
+        cursor: pointer;
+      }
+    }
+  `,
+
+  NavigationSub: styled.div`
+    max-width: 350px;
+    position: absolute;
+    z-index: 500;
+    background-color: #ffffff;
+    box-shadow: -2px 2px 70px -25px rgb(0 0 0 / 30%);
+    padding: 20px 30px;
+    transition: all 0.5s ease;
+    margin-top: 25px;
+    opacity: 0;
+    visibility: hidden;
+    
+    ul {
+      li {
+        a {
+          :hover & {
+            margin-top: 0;
+            visibility: visible;
+            opacity: 1;
+          }
+        }
+      }
+    }
+  `,
+
+  NavigationSubItem: styled.ul`
+    li {
+      line-height: 1;
+      display: block;
+      a {
+        display: inline-block;
+        padding: 10px 0;
+        font-size: 15px;
+        color: #555555;
+        transition: color 0.3s ease;
+        text-decoration: none;
+        text-transform: capitalize;
+        &:hover {
+          color: #fea116;
+          cursor: pointer;
+        }
+      }
+    }
+  `,
+
   ButtonWrapper: styled.div`
     flex: 0 0 25%;
     max-width: 25%;
@@ -65,7 +129,7 @@ const S = {
 };
 
 const NAVIGATION_ITEMS = [
-  { id: 1, name: "DCLO CSPM", children: [] },
+  { id: 1, name: "D-CLO CSPM", children: [] },
   {
     id: 2,
     name: "기능 소개",
@@ -135,11 +199,11 @@ const Header = () => {
         <S.Navigation>
           {NAVIGATION_ITEMS.map(({ id, name, children }) => {
             return (
-              <li
+              <S.NavigationItem
                 key={id}
-                className={
-                  children.length > 0 ? styles.menu_item_has_children : ""
-                }
+                // className={
+                //   children.length > 0 ? styles.menu_item_has_children : ""
+                // }
               >
                 <a href="#">
                   {name}
@@ -150,21 +214,22 @@ const Header = () => {
                   )}
                 </a>
                 {children && (
-                  <div
-                    className={`${styles.sub_menu} ${styles.single_column_menu}`}
+                  <S.NavigationSub
+                  // className={`${styles.sub_menu} ${styles.single_column_menu}`}
                   >
-                    <ul>
-                      {children.map(({ title }, index) => {
-                        return (
-                          <li key={index}>
-                            <a href="#">{title}</a>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+                    <S.NavigationSubItem>
+                      {children.length > 0 &&
+                        children.map(({ title }, index) => {
+                          return (
+                            <li key={index}>
+                              <a href="#">{title}</a>
+                            </li>
+                          );
+                        })}
+                    </S.NavigationSubItem>
+                  </S.NavigationSub>
                 )}
-              </li>
+              </S.NavigationItem>
             );
           })}
         </S.Navigation>
